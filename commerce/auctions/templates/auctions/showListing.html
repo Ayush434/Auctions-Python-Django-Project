@@ -1,0 +1,186 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block title %}
+   {{item.title}} 
+{% endblock %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+
+
+        {% if win %}
+             <!-- Card Regular -->
+             <div class="card card-cascade" >
+                <!-- Card content -->
+                <div class="card-body card-body-cascade text-center">
+                    <!-- Title -->
+                    <h4 class="card-title"><strong>{{winner.title}}</strong></h4>
+                    {% if winner.seller == winner.owner %}
+                        <p class="font-weight-bold">CONGRATULATIONS!!! You Won <br> </p>
+                    {% endif %}
+                    <!-- seller -->
+                    <p class="font-weight-bold">Seller : {{winner.owner}} <br> </p>
+                    <!-- winner -->
+                    <p class="font-weight-bold">Winner : {{winner.winner}} <br> </p>
+                    <!-- Price -->
+                    <p class="font-weight-bold">{{winner.winnerPrice}}$ <br> </p>
+                </div>
+            </div>
+
+
+
+
+        {% else %}
+
+
+            <div class="card text-center">
+                <div class="card-header">
+                Details about <b>{{item.title}}</b> 
+                </div>
+
+                
+                    <div class="card-body"></div>
+                    <h5 class="card-title">Title: {{item.title}}</h5>
+                    <p class="card-text">Category: {{item.category}}</p>
+                    {% if item.image %}
+                    <img style="width: 20rem;" src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title}}">
+                    <br>
+                    <br>   
+                    {%endif%}        
+            
+                
+                <p class="card-text">Description: {{item.description}}</p>
+                <p class="card-text">Current Price: {{item.bid}}</p>
+
+
+
+
+                
+                {% if watchlist %}
+                    <a href="{% url 'addToWatchlist' item.id %}" class="btn btn-primary btn-lg">Remove from watchlist</a>
+                    
+                {% else %}
+                <a href="{% url 'addToWatchlist' item.id %}" class="btn btn-primary btn-lg">Add to watchlist</a> 
+                {% endif %}
+
+
+                <br> <br> <br>
+                {% if user.username != product.seller %}
+                    <!-- Displaying Bids-->
+                    <div class="jumbotron text-center " style="background-color: pink;">
+
+                        <!-- Title -->
+                        <h2 class="card-title h2">ADD BID</h2>
+                        
+                        <form action="{% url 'showListing' item.id %}" method="POST" >
+                            {% csrf_token %}
+        
+                            {% if error %}
+        
+                                <div class="alert alert-danger" role="alert">
+                                    {{error}}
+                                </div>
+        
+                            {%endif%}
+        
+                            {% if success %}
+        
+                            <div class="alert alert-success" role="alert">
+                            {{success}}
+                            </div>
+        
+                            {%endif%}
+                            
+                            <h3>Bid</h3>
+                            {{bidForm.bid}}
+                            <br><br>
+        
+                            
+                    
+                            <input type="submit" >
+                        </form>
+                    </div>
+                    <!-- End add Bids -->
+                {% endif %}
+
+                
+
+                
+                <br> <br> <br>
+
+                <!-- Displaying comments-->
+                <div class="jumbotron text-center" style="background-color: rgb(148, 98, 230);">
+        
+                    <!-- Title -->
+                    <h2 class="card-title h2">COMMENTS</h2>
+                    <!-- Subtitle -->
+                    <p class="lead my-4">These are the comments left by other users.</p>
+                
+                    {% if comments %}
+        
+                        {% for comment in comments %}
+                            <br>
+                            <!-- Grid row -->
+                            <div class="card text-left">
+                            <h5 class="card-header h5">{{comment.user}}</h5>
+                            <div class="card-body">
+                                <p class="lead">{{comment.comment}}</p>
+                                <p class="card-text">{{comment.timestamp}}</p>
+                            </div>
+                            </div>
+                        {% endfor %}
+        
+                    {% else %}
+                        <div class="text-center">
+                            <br> <br> 
+                            <p class="lead">No Comments Found</p> 
+                        </div>
+                    {% endif %}
+                </div>
+                
+
+                {% if user.username != product.seller %}
+                    <!-- Displaying comments-->
+                    <div class="jumbotron text-center" style="background-color: rgb(198, 228, 127);">
+
+                        <!-- Title -->
+                        <h2 class="card-title h2">ADD COMMENT</h2>
+                        
+                        <form action="{% url 'addComments' item.id %}" method="POST" >
+                            {% csrf_token %}
+
+                                            
+                            <h3>Comments:</h3>
+                            {{commentsForm.comment}}
+                            <br><br>
+
+                            
+                    
+                            <input type="submit" >
+                        </form>
+                    </div>
+                    <!-- End add comments -->
+                {% endif %}
+
+
+                
+                <br>
+
+
+                {% if item.seller == request.user.username  %}
+                    <a href="{% url 'closeListing' item.id %}" class="btn btn-info btn-lg ">Close the listing</a>
+                    
+                
+                {% endif %}
+
+
+            </div>  
+
+
+
+
+        {%endif%}   
+    {%endif%}
+
+{% endblock %}

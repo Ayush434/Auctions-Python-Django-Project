@@ -1,0 +1,53 @@
+{% extends "auctions/layout.html" %}
+
+
+
+{% block title %}
+    Auction Listings
+{% endblock %}
+
+
+
+
+
+
+{% block body %}
+
+
+    {% if user.is_authenticated %}
+
+        <div class="card">
+            <div class="card-header">
+            Active Listening
+            </div>
+            <div class="card-columns">
+            {% for item in auction %}
+            
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Title: {{item.title}}</h5>
+                        <p class="card-text">Category: {{item.category}}</p>
+                        {% if item.image %}
+                        <img style="width: 20rem;" src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title}}">
+                        <br>
+                        <br>   
+                        {%endif%}
+
+
+                    
+                        <p class="card-text">Description: {{item.description}}</p>
+                        <p class="card-text">Current Price: {{item.bid}}</p>
+
+                        
+                        <a href="{% url 'showListing' item.id %}">View Full Details</a>
+                    </div>
+                </div>
+            
+
+            {%endfor%}
+            </div>
+
+        </div>  
+    {%endif%}
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+
+
+{% block title %}
+    Closed Listings
+{% endblock %}
+
+
+
+
+
+
+{% block body %}
+    {% if user.is_authenticated %}
+
+        <div class="card card-cascade" >
+            <!-- Card content -->
+            <div class="card-body card-body-cascade text-center">
+                <!-- Title -->
+                <h4 class="card-title"><strong>{{winner.title}}</strong></h4>
+                {% if winner.seller == winner.owner %}
+                    <p class="font-weight-bold">CONGRATULATIONS!!! You Won <br> </p>
+                {% endif %}
+                <!-- seller -->
+                <p class="font-weight-bold">Seller : {{winner.owner}} <br> </p>
+                <!-- winner -->
+                <p class="font-weight-bold">Winner : {{winner.winner}} <br> </p>
+                <!-- Price -->
+                <p class="font-weight-bold">{{winner.winnerPrice}}$ <br> </p>
+            </div>
+        </div>
+    {%endif%}
+
+    
+
+{% endblock %}

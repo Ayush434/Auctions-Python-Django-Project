@@ -1,0 +1,53 @@
+{% extends "auctions/layout.html" %}
+
+
+
+{% block title %}
+    Closed Listings
+{% endblock %}
+
+
+{% block body %}
+
+
+    {% if user.is_authenticated %}
+
+
+        {% if empty %}
+
+            <h2>No Closed Listings Avaialble At the Moment!</h2>
+
+        {% else %}
+
+            <div class="card">
+                <div class="card-header">
+                Closed Listening
+                </div>
+                <div class="card-columns">
+                {% for winner in winners %}
+                
+                    <div class="card card-cascade" >
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+                            <!-- Title -->
+                            <h4 class="card-title"><strong>{{winner.title}}</strong></h4>
+                            
+                            <!-- seller -->
+                            <p class="font-weight-bold">Seller : {{winner.owner}} <br> </p>
+                            <!-- winner -->
+                            <p class="font-weight-bold">Winner : {{winner.winner}} <br> </p>
+                            <!-- Price -->
+                            <p class="font-weight-bold">{{winner.winnerPrice}}$ <br> </p>
+
+                            <a href="{% url 'closeListing' winner.listingId %}">View Full Details</a>
+                        </div>
+                    </div>
+
+                {%endfor%}
+                </div>
+
+            </div>   
+        {%endif%}
+    {%endif%}
+
+{% endblock %}

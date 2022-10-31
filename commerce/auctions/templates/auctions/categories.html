@@ -1,0 +1,43 @@
+{% extends "auctions/layout.html" %}
+
+
+
+{% block title %}
+    Watch List!
+{% endblock %}
+
+{% block body %}
+
+
+    {% if user.is_authenticated %}
+
+        <div class="jumbotron text-center mx-2 mb-5">
+
+        <!-- Title -->
+        <h2 class="card-title h2">CATEGORIES</h2>
+        <!-- Subtitle -->
+        <p class="my-4 h6">Select a Category to view Listings in that category.</p>
+        <br> <br>
+        <!-- Grid row -->
+        <div class="row d-flex justify-content-center">
+            <!-- Grid column -->
+            <div class="col-xl-7 pb-2">
+                <ul class="list-group">
+                    {% for category in catlist %}
+                        <a href="{% url 'showCategory' category %}"><li class="list-group-item"><i class="fas fa-tshirt mr-5"></i>{{category}}</li></a>
+                    
+                    {% endfor %}
+
+                </ul>
+            </div>
+            <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+    </div>
+               
+    {%endif%}
+
+
+            
+
+{% endblock %}
